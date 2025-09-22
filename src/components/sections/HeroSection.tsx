@@ -36,7 +36,7 @@ export function HeroSection() {
             <span className="block text-primary">Troubleshooting Hub</span>
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
-            The comprehensive resource for technicians, utility staff, and customers to resolve smart meter issues quickly and efficiently.
+            The comprehensive resource for technicians, utility staff, and customers to resolve energy meter issues quickly and efficiently.
           </p>
           
           {/* Hero Search */}
