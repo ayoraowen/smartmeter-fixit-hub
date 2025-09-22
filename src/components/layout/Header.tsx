@@ -13,7 +13,7 @@ export function Header() {
               <Settings className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">SmartMeter Pro</h1>
+              <h1 className="text-xl font-bold text-foreground">Energy Meter Guide System</h1>
               <p className="text-sm text-muted-foreground">Troubleshooting Directory</p>
             </div>
           </div>
