@@ -10,15 +10,15 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Plus, X, Save, Clock, Users } from "lucide-react";
+import { Plus, X, Save, Clock, Users, Zap } from "lucide-react";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
+import { meterData, getMeterTypes } from "@/data/meterData";
 
 const createGuideSchema = z.object({
+  meterId: z.string().min(1, "Please select a meter"),
   title: z.string().min(5, "Title must be at least 5 characters").max(100, "Title must be less than 100 characters"),
   description: z.string().min(20, "Description must be at least 20 characters").max(500, "Description must be less than 500 characters"),
-  category: z.enum(["Communication", "Configuration", "Power", "Maintenance", "Network"], {
-    required_error: "Please select a category"
-  }),
+  category: z.string().min(1, "Please select a category"),
   difficulty: z.enum(["Beginner", "Intermediate", "Advanced"], {
     required_error: "Please select a difficulty level"
   }),
@@ -47,9 +47,10 @@ export function CreateGuideForm({ onSubmit, isLoading = false }: CreateGuideForm
   const form = useForm<CreateGuideFormData>({
     resolver: zodResolver(createGuideSchema),
     defaultValues: {
+      meterId: "",
       title: "",
       description: "",
-      category: undefined,
+      category: "",
       difficulty: undefined,
       estimatedDuration: "",
       steps: [{ title: "", description: "", tips: "" }],
@@ -62,12 +63,10 @@ export function CreateGuideForm({ onSubmit, isLoading = false }: CreateGuideForm
     name: "steps"
   });
 
+  const meterTypes = getMeterTypes();
   const categories = [
-    { value: "Communication", label: "Communication Issues" },
-    { value: "Configuration", label: "Configuration & Setup" },
-    { value: "Power", label: "Power & Quality" },
-    { value: "Maintenance", label: "Maintenance & Updates" },
-    { value: "Network", label: "Network & Connectivity" }
+    ...meterTypes.map(type => ({ value: type, label: type })),
+    { value: "General", label: "General Troubleshooting" }
   ];
 
   const difficultyLevels = [
@@ -131,6 +130,43 @@ export function CreateGuideForm({ onSubmit, isLoading = false }: CreateGuideForm
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+            {/* Meter Selection */}
+            <FormField
+              control={form.control}
+              name="meterId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select Meter</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Choose the meter this guide is for" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="z-50 bg-popover">
+                      {meterData.map((meter) => (
+                        <SelectItem key={meter.id} value={meter.id.toString()}>
+                          <div className="flex items-center gap-2">
+                            <Zap className="h-4 w-4 text-primary" />
+                            <span className="font-medium">{meter.brand}</span>
+                            <span className="text-muted-foreground">-</span>
+                            <span>{meter.model}</span>
+                            <Badge variant="outline" className="ml-2 text-xs">
+                              {meter.type}
+                            </Badge>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Select the specific meter model this guide applies to
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             {/* Basic Information */}
             <div className="grid md:grid-cols-2 gap-6">
               <FormField
@@ -200,7 +236,7 @@ export function CreateGuideForm({ onSubmit, isLoading = false }: CreateGuideForm
                           <SelectValue placeholder="Select a category" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="z-50 bg-popover">
                         {categories.map((category) => (
                           <SelectItem key={category.value} value={category.value}>
                             {category.label}
@@ -225,7 +261,7 @@ export function CreateGuideForm({ onSubmit, isLoading = false }: CreateGuideForm
                           <SelectValue placeholder="Select difficulty" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="z-50 bg-popover">
                         {difficultyLevels.map((level) => (
                           <SelectItem key={level.value} value={level.value}>
                             <div className="flex items-center gap-2">
