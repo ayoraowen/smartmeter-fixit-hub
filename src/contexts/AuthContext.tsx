@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 interface User {
   email: string;
-  name: string;
+  firstName: string;
+  lastName: string;
 }
 
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, name: string) => Promise<void>;
+  signup: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -34,17 +35,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const userData = { email, name: "User" };
+    const userData = { email, firstName: "User", lastName: "" };
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
     navigate("/");
   };
 
-  const signup = async (email: string, password: string, name: string) => {
+  const signup = async (email: string, password: string, firstName: string, lastName: string) => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const userData = { email, name };
+    const userData = { email, firstName, lastName };
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
     navigate("/");

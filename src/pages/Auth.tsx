@@ -22,7 +22,8 @@ const signupSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   confirmPassword: z.string().min(6, "Password must be at least 6 characters"),
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  firstName: z.string().min(2, "First name must be at least 2 characters"),
+  lastName: z.string().min(2, "Last name must be at least 2 characters"),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -61,7 +62,8 @@ const Auth = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      name: "",
+      firstName: "",
+      lastName: "",
     },
   });
 
@@ -94,7 +96,8 @@ const Auth = () => {
       //   body: JSON.stringify({
       //     email: data.email,
       //     password: data.password,
-      //     name: data.name,
+      //     firstName: data.firstName,
+      //     lastName: data.lastName,
       //   }),
       // });
       //
@@ -106,7 +109,7 @@ const Auth = () => {
       // const userData = await response.json();
       // Store token or session data as needed
       
-      await signup(data.email, data.password, data.name);
+      await signup(data.email, data.password, data.firstName, data.lastName);
       setSuccess("Account created successfully! Redirecting...");
     } catch (err) {
       setError("Failed to create account. Please try again.");
@@ -208,23 +211,44 @@ const Auth = () => {
 
               <TabsContent value="signup" className="space-y-4">
                 <form onSubmit={signupForm.handleSubmit(onSignup)} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-name">Full Name</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="signup-name"
-                        type="text"
-                        placeholder="Enter your full name"
-                        className="pl-9"
-                        {...signupForm.register("name")}
-                      />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-first-name">First Name</Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="signup-first-name"
+                          type="text"
+                          placeholder="First name"
+                          className="pl-9"
+                          {...signupForm.register("firstName")}
+                        />
+                      </div>
+                      {signupForm.formState.errors.firstName && (
+                        <p className="text-sm text-destructive">
+                          {signupForm.formState.errors.firstName.message}
+                        </p>
+                      )}
                     </div>
-                    {signupForm.formState.errors.name && (
-                      <p className="text-sm text-destructive">
-                        {signupForm.formState.errors.name.message}
-                      </p>
-                    )}
+
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-last-name">Last Name</Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="signup-last-name"
+                          type="text"
+                          placeholder="Last name"
+                          className="pl-9"
+                          {...signupForm.register("lastName")}
+                        />
+                      </div>
+                      {signupForm.formState.errors.lastName && (
+                        <p className="text-sm text-destructive">
+                          {signupForm.formState.errors.lastName.message}
+                        </p>
+                      )}
+                    </div>
                   </div>
 
                   <div className="space-y-2">
