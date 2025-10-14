@@ -9,7 +9,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, firstName: string, lastName: string) => Promise<void>;
   signup: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
@@ -31,11 +31,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, firstName: string, lastName: string) => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const userData = { email, firstName: "XXx", lastName: "" };
+
+
+    const userData = { email, firstName, lastName };
+
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
     navigate("/");

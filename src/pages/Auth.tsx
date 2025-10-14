@@ -74,28 +74,52 @@ const Auth = () => {
     try {
       // TODO: Replace with actual REST API call
       // Example implementation:
+<<<<<<< HEAD
       const response = await fetch('http://localhost:3000/login', {
+=======
+      /*
+      const response = await fetch('https://your-api.com/api/auth/login', {
+>>>>>>> 6239ad78524cfe71827c4601e21e81369b1e7e8c
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+<<<<<<< HEAD
         body: JSON.stringify(
           {
             email: data.email,
             password: data.password,
           }
         ),
+=======
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+>>>>>>> 6239ad78524cfe71827c4601e21e81369b1e7e8c
       });
       
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Login failed');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
       }
       
-      const userData = await response.json();
-      // Store token or session data as needed
+      const { user: userData, token } = await response.json();
+      // Expected response format:
+      // {
+      //   user: { email: string, first_name: string, last_name: string },
+      //   token: string
+      // }
       
-      await login(data.email, data.password);
+      // Store the auth token
+      localStorage.setItem('authToken', token);
+      
+      // Update auth context with user data including first name
+      await login(userData.email, userData.first_name, userData.last_name);
+      */
+      
+      // Temporary mock implementation - remove when API is ready
+      await login(data.email, "User", "");
       setSuccess("Login successful! Redirecting...");
     } catch (err) {
       setError("Invalid email or password. Please try again.");
