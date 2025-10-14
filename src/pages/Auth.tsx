@@ -79,12 +79,12 @@ const Auth = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          user: {
+        body: JSON.stringify(
+          {
             email: data.email,
             password: data.password,
           }
-        }),
+        ),
       });
       
       if (!response.ok) {

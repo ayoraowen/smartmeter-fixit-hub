@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const userData = { email, firstName: "User", lastName: "" };
+    const userData = { email, firstName: "XXx", lastName: "" };
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
     navigate("/");
