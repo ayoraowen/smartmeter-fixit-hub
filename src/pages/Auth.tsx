@@ -125,6 +125,7 @@ const Auth = () => {
             password_confirmation: data.confirmPassword,
           }
         }
+
         ),
       });
       
