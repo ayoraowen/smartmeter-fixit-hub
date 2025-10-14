@@ -92,7 +92,8 @@ const Auth = () => {
         throw new Error(errorData.message || 'Login failed');
       }
       
-      const { user: userData, token } = await response.json();
+      const userData = await response.json();
+      //const { user: userData, token } = await response.json();
       // Expected response format:
       // {
       //   user: { email: string, first_name: string, last_name: string },
@@ -100,7 +101,7 @@ const Auth = () => {
       // }
       
       // Store the auth token
-      localStorage.setItem('authToken', token);
+      //localStorage.setItem('authToken', token);
       
       // Update auth context with user data including first name
       await login(userData.email, userData.first_name, userData.last_name);
