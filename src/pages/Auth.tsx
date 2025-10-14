@@ -117,13 +117,11 @@ const Auth = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user: {
-            first_name: data.firstName,
-            last_name: data.lastName,
-            email: data.email,
-            password: data.password,
-            password_confirmation: data.confirmPassword,
-          }
+          first_name: data.firstName,
+          last_name: data.lastName,
+          email: data.email,
+          password: data.password,
+          password_confirmation: data.confirmPassword,
         }),
       });
       
