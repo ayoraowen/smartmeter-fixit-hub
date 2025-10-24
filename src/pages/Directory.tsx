@@ -14,58 +14,60 @@ export default function Directory() {
   const [selectedBrand, setSelectedBrand] = useState("all");
   
   // API Implementation (commented out - replace static meterData when backend is ready)
-  // const [meters, setMeters] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
+  const [meters, setMeters] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   
-  // useEffect(() => {
-  //   const fetchMeters = async () => {
-  //     try {
-  //       const response = await fetch('https://localhost:3000/meters', {
-  //         method: 'GET',
-  //         credentials: "include", // 👈 sends the session cookie
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           // 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-  //         },
-  //       });
-  //
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch meters');
-  //       }
-  //
-  //       const data = await response.json();
-  //       // Expected response format: Array of meter objects
-  //       // [{
-  //       //   id: number,
-  //       //   brand: string,
-  //       //   model: string,
-  //       //   type: string,
-  //       //   features: string[],
-  //       //   commonIssues: number,
-  //       //   guides: number,
-  //       //   createdAt: string
-  //       // }]
-  //       
-  //       setMeters(data);
-  //     } catch (error) {
-  //       console.error('Error fetching meters:', error);
-  //       // Optionally show toast notification
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //
-  //   fetchMeters();
-  // }, []); // Empty dependency array = fetch once on mount
+  useEffect(() => {
+    const fetchMeters = async () => {
+      try {
+        const response = await fetch('https://localhost:3000/meters', {
+          method: 'GET',
+          credentials: "include", // 👈 sends the session cookie
+          headers: {
+            'Content-Type': 'application/json',
+            // 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to fetch meters');
+        }
+  
+        const data = await response.json();
+        // Expected response format: Array of meter objects
+        // [{
+        //   id: number,
+        //   brand: string,
+        //   model: string,
+        //   type: string,
+        //   features: string[],
+        //   commonIssues: number,
+        //   guides: number,
+        //   createdAt: string
+        // }]
+        
+        setMeters(data);
+      } catch (error) {
+        console.error('Error fetching meters:', error);
+        // Optionally show toast notification
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    fetchMeters();
+  }, []); // Empty dependency array = fetch once on mount
   
   // Current static implementation - replace with: const brands = ["all", ...Array.from(new Set(meters.map(meter => meter.brand)))];
-  const brands = ["all", ...Array.from(new Set(meterData.map(meter => meter.brand)))];
+  // const brands = ["all", ...Array.from(new Set(meterData.map(meter => meter.brand)))];
+  const brands = ["all", ...Array.from(new Set(meters.map(meter => meter.brand)))];
 
   // Current static implementation - replace 'meterData' with 'meters' when using API
-  const filteredMeters = meterData.filter(meter => {
+  const filteredMeters = meters.filter(meter => {
     const matchesSearch = meter.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          meter.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         meter.type.toLowerCase().includes(searchTerm.toLowerCase());
+                         meter.connection_type.toLowerCase().includes(searchTerm.toLowerCase());
+                         console.log(meter.model, meter.brand, meter.connection_type, searchTerm);
     const matchesBrand = selectedBrand === "all" || meter.brand === selectedBrand;
     return matchesSearch && matchesBrand;
   });
@@ -126,7 +128,7 @@ export default function Directory() {
                   <CardTitle className="text-lg">{meter.model}</CardTitle>
                   <p className="text-sm text-primary font-medium">{meter.brand}</p>
                 </div>
-                <Badge variant="secondary">{meter.type}</Badge>
+                <Badge variant="secondary">{meter.connection_type}</Badge>
               </div>
             </CardHeader>
             <CardContent>
@@ -144,10 +146,10 @@ export default function Directory() {
                 
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">
-                    {meter.commonIssues} common issues
+                    {/* {meter.commonIssues} common issues */}
                   </span>
                   <span className="text-muted-foreground">
-                    {meter.guides} guides available
+                    {/* {meter.guides} guides available */}
                   </span>
                 </div>
                 
