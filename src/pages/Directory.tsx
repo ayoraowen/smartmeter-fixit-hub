@@ -45,7 +45,7 @@ export default function Directory() {
         //   guides: number,
         //   createdAt: string
         // }]
-        
+        console.log(data);
         setMeters(data);
       } catch (error) {
         console.error('Error fetching meters:', error);
@@ -64,10 +64,11 @@ export default function Directory() {
 
   // Current static implementation - replace 'meterData' with 'meters' when using API
   const filteredMeters = meters.filter(meter => {
+    const featuresDbColStringToArray = Array.isArray(meter.features) ? meter.features : JSON.parse(meter.features || "[]");
     const matchesSearch = meter.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          meter.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          meter.connection_type.toLowerCase().includes(searchTerm.toLowerCase());
-                         console.log(meter.model, meter.brand, meter.connection_type, searchTerm);
+                         console.log(meter.model, meter.brand, meter.connection_type, featuresDbColStringToArray);
     const matchesBrand = selectedBrand === "all" || meter.brand === selectedBrand;
     return matchesSearch && matchesBrand;
   });
@@ -136,11 +137,11 @@ export default function Directory() {
                 <div>
                   <h4 className="text-sm font-medium text-foreground mb-2">Features</h4>
                   <div className="flex flex-wrap gap-1">
-                    {meter.features.map((feature, index) => (
+                    {/* {meter.features.map((feature, index) => (
                       <Badge key={index} variant="outline" className="text-xs">
                         {feature}
                       </Badge>
-                    ))}
+                    ))} */}
                   </div>
                 </div>
                 
