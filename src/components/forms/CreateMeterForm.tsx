@@ -30,6 +30,7 @@ export function CreateMeterForm() {
   // const [searchResults, setSearchResults] = useState<any[]>([]);
   // const [isSearching, setIsSearching] = useState(false);
   // const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
+  // const [duplicateExists, setDuplicateExists] = useState(false);
 
   const form = useForm<z.infer<typeof createMeterSchema>>({
     resolver: zodResolver(createMeterSchema),
@@ -45,6 +46,7 @@ export function CreateMeterForm() {
   // const searchSimilarMeters = async (brand: string, model: string, type: string, features: string) => {
   //   if (!brand && !model && !type && !features) {
   //     setSearchResults([]);
+  //     setDuplicateExists(false);
   //     return;
   //   }
   //
@@ -68,22 +70,26 @@ export function CreateMeterForm() {
   //       const data = await response.json();
   //       setSearchResults(data);
   //       
-  //       // Check for duplicates and warn user
+  //       // Check for exact duplicates (brand + model match)
   //       const exactMatch = data.find((meter: any) => 
   //         meter.brand.toLowerCase() === brand.toLowerCase() && 
   //         meter.model.toLowerCase() === model.toLowerCase()
   //       );
   //       
   //       if (exactMatch) {
+  //         setDuplicateExists(true);
   //         toast({
-  //           title: "Duplicate meter found",
+  //           title: "Duplicate meter detected",
   //           description: `${exactMatch.brand} ${exactMatch.model} already exists in the directory.`,
   //           variant: "destructive",
   //         });
+  //       } else {
+  //         setDuplicateExists(false);
   //       }
   //     }
   //   } catch (error) {
   //     console.error('Search error:', error);
+  //     setDuplicateExists(false);
   //   } finally {
   //     setIsSearching(false);
   //   }
@@ -117,6 +123,16 @@ export function CreateMeterForm() {
 
   const onSubmit = async (values: z.infer<typeof createMeterSchema>) => {
     // API Implementation (commented out - replace localStorage when backend is ready)
+    
+    // Prevent submission if duplicate exists
+    // if (duplicateExists) {
+    //   toast({
+    //     title: "Cannot add meter",
+    //     description: "This meter already exists in the directory.",
+    //     variant: "destructive",
+    //   });
+    //   return;
+    // }
     
     try {
       const response = await fetch('https://localhost:3000/meters', {
@@ -253,7 +269,13 @@ export function CreateMeterForm() {
         />
 
         <div className="flex gap-4">
-          <Button type="submit" className="flex-1">Add Meter</Button>
+          <Button 
+            type="submit" 
+            className="flex-1"
+            // disabled={duplicateExists} // Uncomment to disable when duplicate exists
+          >
+            Add Meter
+          </Button>
           <Button 
             type="button" 
             variant="outline" 
