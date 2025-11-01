@@ -12,6 +12,9 @@ import Guides from "./pages/Guides";
 import GuideDetail from "./pages/GuideDetail";
 import CreateGuide from "./pages/CreateGuide";
 import CreateMeter from "./pages/CreateMeter";
+import MeterBehaviors from "./pages/MeterBehaviors";
+import BehaviorDetail from "./pages/BehaviorDetail";
+import CreateBehavior from "./pages/CreateBehavior";
 import Community from "./pages/Community";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -33,6 +36,9 @@ const App = () => (
             <Route path="/guides" element={<Guides />} />
             <Route path="/guides/:id" element={<GuideDetail />} />
             <Route path="/guides/create" element={<ProtectedRoute><CreateGuide /></ProtectedRoute>} />
+            <Route path="/behaviors" element={<MeterBehaviors />} />
+            <Route path="/behaviors/:id" element={<BehaviorDetail />} />
+            <Route path="/behaviors/create" element={<ProtectedRoute><CreateBehavior /></ProtectedRoute>} />
             <Route path="/community" element={<Community />} />
             <Route path="/auth" element={<Auth />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
