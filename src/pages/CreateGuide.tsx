@@ -6,10 +6,13 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { saveGuide } from "@/data/guideData";
+import { useToast } from "@/hooks/use-toast";
 
 const CreateGuide = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   // Simulate user authentication check
   // TODO: Replace with actual authentication logic when backend is ready
@@ -19,16 +22,30 @@ const CreateGuide = () => {
     setIsLoading(true);
     
     try {
-      // TODO: Implement actual guide creation when backend is ready
-      console.log("Creating guide:", data);
+      const newGuide = saveGuide({
+        meterId: data.meterId,
+        title: data.title,
+        description: data.description,
+        category: data.category,
+        difficulty: data.difficulty,
+        duration: data.estimatedDuration,
+        steps: data.steps as Array<{ title: string; description: string; tips?: string }>,
+        tags: data.tags
+      });
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      toast({
+        title: "Guide created successfully!",
+        description: `"${newGuide.title}" has been added to the guides.`,
+      });
       
-      // Navigate to guides page after successful creation
-      navigate("/guides");
+      navigate(`/guides/${newGuide.id}`);
     } catch (error) {
       console.error("Failed to create guide:", error);
+      toast({
+        title: "Error creating guide",
+        description: "There was a problem creating your guide. Please try again.",
+        variant: "destructive",
+      });
       throw new Error("Failed to create guide. Please try again.");
     } finally {
       setIsLoading(false);

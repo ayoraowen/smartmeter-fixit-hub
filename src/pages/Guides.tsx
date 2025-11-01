@@ -6,77 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
+import { getAllGuides } from "@/data/guideData";
 
 export default function Guides() {
   const [searchTerm, setSearchTerm] = useState("");
-
-  const guides = [
-    {
-      id: 1,
-      title: "Resolving Communication Failures in Schneider ION Meters",
-      category: "Communication",
-      difficulty: "Intermediate",
-      duration: "15 min",
-      rating: 4.8,
-      votes: 24,
-      author: "Tech Lead Mike",
-      lastUpdated: "2 days ago",
-      steps: 8,
-      description: "Step-by-step guide to diagnose and fix common communication issues with Schneider Electric ION series meters."
-    },
-    {
-      id: 2,
-      title: "Factory Reset Procedure for Siemens PAC3200",
-      category: "Configuration",
-      difficulty: "Beginner",
-      duration: "5 min",
-      rating: 4.9,
-      votes: 31,
-      author: "Senior Tech Sarah",
-      lastUpdated: "1 week ago",
-      steps: 4,
-      description: "Complete factory reset process including backup procedures and post-reset configuration."
-    },
-    {
-      id: 3,
-      title: "Troubleshooting Power Quality Issues",
-      category: "Power",
-      difficulty: "Advanced",
-      duration: "30 min",
-      rating: 4.7,
-      votes: 18,
-      author: "Expert John",
-      lastUpdated: "3 days ago",
-      steps: 12,
-      description: "Advanced diagnostics for power quality problems including harmonics, voltage sag, and frequency variations."
-    },
-    {
-      id: 4,
-      title: "Firmware Update Best Practices",
-      category: "Maintenance",
-      difficulty: "Intermediate",
-      duration: "20 min",
-      rating: 4.6,
-      votes: 22,
-      author: "Field Engineer Lisa",
-      lastUpdated: "5 days ago",
-      steps: 10,
-      description: "Safe firmware update procedures with rollback strategies and compatibility checks."
-    },
-    {
-      id: 5,
-      title: "Network Configuration for AMI Deployment",
-      category: "Network",
-      difficulty: "Advanced",
-      duration: "45 min",
-      rating: 4.8,
-      votes: 15,
-      author: "Network Specialist Tom",
-      lastUpdated: "1 week ago",
-      steps: 15,
-      description: "Complete network setup guide for Advanced Metering Infrastructure including security configuration."
-    }
-  ];
+  const guides = getAllGuides();
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -155,17 +89,19 @@ export default function Guides() {
                   </div>
                 </div>
                 
-                <Button variant="outline" size="sm">
-                  View Guide
-                  <ChevronRight className="h-4 w-4 ml-1" />
-                </Button>
+                <Link to={`/guides/${guide.id}`}>
+                  <Button variant="outline" size="sm">
+                    View Guide
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Button>
+                </Link>
               </div>
             </CardHeader>
             <CardContent>
               <div className="flex justify-between items-center text-sm text-muted-foreground">
                 <div className="flex items-center space-x-4">
                   <span>By {guide.author}</span>
-                  <span>{guide.steps} steps</span>
+                  <span>{guide.steps.length} steps</span>
                 </div>
                 <span>Updated {guide.lastUpdated}</span>
               </div>

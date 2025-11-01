@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Directory from "./pages/Directory";
 import ErrorCodes from "./pages/ErrorCodes";
 import Guides from "./pages/Guides";
+import GuideDetail from "./pages/GuideDetail";
 import CreateGuide from "./pages/CreateGuide";
 import CreateMeter from "./pages/CreateMeter";
 import Community from "./pages/Community";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/directory/create" element={<ProtectedRoute><CreateMeter /></ProtectedRoute>} />
             <Route path="/error-codes" element={<ErrorCodes />} />
             <Route path="/guides" element={<Guides />} />
+            <Route path="/guides/:id" element={<GuideDetail />} />
             <Route path="/guides/create" element={<ProtectedRoute><CreateGuide /></ProtectedRoute>} />
             <Route path="/community" element={<Community />} />
             <Route path="/auth" element={<Auth />} />
