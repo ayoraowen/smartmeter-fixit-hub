@@ -8,9 +8,9 @@ export default function CreateBehavior() {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-2">Report Meter Behavior</h1>
+            <h1 className="text-4xl font-bold mb-2">Report Meter Behaviour</h1>
             <p className="text-muted-foreground">
-              Document unusual meter behavior, issues, or anomalies with detailed symptoms and solutions.
+              Document unusual meter behaviour, issues, or anomalies with detailed symptoms and solutions.
             </p>
           </div>
 

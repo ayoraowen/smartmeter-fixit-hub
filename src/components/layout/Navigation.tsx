@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { to: "/", label: "Home", icon: Home },
   { to: "/directory", label: "Meter Directory", icon: Grid3X3 },
-  { to: "/behaviors", label: "Behaviors", icon: Activity },
+  { to: "/behaviors", label: "Behaviour Guides", icon: Activity },
   { to: "/error-codes", label: "Error Codes", icon: AlertCircle },
   { to: "/guides", label: "Troubleshooting Guides", icon: Book },
   { to: "/community", label: "Community", icon: Users },

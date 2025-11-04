@@ -43,14 +43,14 @@ export default function MeterBehaviors() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-4xl font-bold mb-2">Meter Behaviors</h1>
+              <h1 className="text-4xl font-bold mb-2">Behaviour Guides</h1>
               <p className="text-muted-foreground">
-                Browse reported meter behaviors, issues, and their solutions
+                Browse reported meter behaviours, issues, and their solutions
               </p>
             </div>
             <Button onClick={() => navigate("/behaviors/create")}>
               <Plus className="mr-2 h-4 w-4" />
-              Report Behavior
+              Report Behaviour
             </Button>
           </div>
 
@@ -58,7 +58,7 @@ export default function MeterBehaviors() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search behaviors..."
+                placeholder="Search behaviour guides..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -82,7 +82,7 @@ export default function MeterBehaviors() {
         {filteredBehaviors.length === 0 ? (
           <Card className="p-8 text-center">
             <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-lg font-semibold mb-2">No behaviors found</h3>
+            <h3 className="text-lg font-semibold mb-2">No behaviour guides found</h3>
             <p className="text-muted-foreground mb-4">
               Try adjusting your search or filters
             </p>

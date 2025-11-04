@@ -16,9 +16,9 @@ export default function BehaviorDetail() {
       <Layout>
         <div className="container mx-auto px-4 py-8">
           <Card className="p-8 text-center">
-            <h2 className="text-2xl font-bold mb-4">Behavior Not Found</h2>
+            <h2 className="text-2xl font-bold mb-4">Behaviour Guide Not Found</h2>
             <p className="text-muted-foreground mb-6">
-              The requested meter behavior could not be found.
+              The requested behaviour guide could not be found.
             </p>
             <Button onClick={() => navigate("/directory")}>
               Back to Directory
