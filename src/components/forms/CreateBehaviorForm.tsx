@@ -6,12 +6,22 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { getAllMeters } from "@/data/meterData";
 import { saveBehavior } from "@/data/behaviorData";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { X, Loader2 } from "lucide-react";
+
+interface ApiFetchedMeter {
+  id: number;
+  brand: string;
+  model: string;
+  connection_type: string;
+  features: string;
+  created_at: string;
+  updated_at: string;
+  user_id: number;
+}
 
 const behaviorSchema = z.object({
   meterId: z.string().min(1, "Please select a meter"),
@@ -30,8 +40,36 @@ export function CreateBehaviorForm() {
   const [symptomInput, setSymptomInput] = useState("");
   const [solutions, setSolutions] = useState<string[]>([]);
   const [solutionInput, setSolutionInput] = useState("");
-  
-  const meters = getAllMeters();
+  const [meters, setMeters] = useState<ApiFetchedMeter[]>([]);
+  const [isLoadingMeters, setIsLoadingMeters] = useState(true);
+
+  useEffect(() => {
+    const fetchMeters = async () => {
+      try {
+        setIsLoadingMeters(true);
+        const response = await fetch('https://localhost:3000/meters');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch meters');
+        }
+        
+        const data: ApiFetchedMeter[] = await response.json();
+        setMeters(data);
+      } catch (error) {
+        console.error('Error fetching meters:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load meters. Please try again later.",
+          variant: "destructive",
+        });
+        setMeters([]);
+      } finally {
+        setIsLoadingMeters(false);
+      }
+    };
+
+    fetchMeters();
+  }, [toast]);
 
   const form = useForm<BehaviorFormData>({
     resolver: zodResolver(behaviorSchema),
@@ -124,18 +162,29 @@ export function CreateBehaviorForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Meter</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isLoadingMeters}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a meter" />
+                    <SelectValue placeholder={isLoadingMeters ? "Loading meters..." : "Select a meter"} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {meters.map((meter) => (
-                    <SelectItem key={meter.id} value={meter.id.toString()}>
-                      {meter.brand} - {meter.model}
-                    </SelectItem>
-                  ))}
+                  {isLoadingMeters ? (
+                    <div className="flex items-center justify-center p-4">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span className="ml-2 text-sm text-muted-foreground">Loading meters...</span>
+                    </div>
+                  ) : meters.length === 0 ? (
+                    <div className="p-4 text-sm text-muted-foreground text-center">
+                      No meters available
+                    </div>
+                  ) : (
+                    meters.map((meter) => (
+                      <SelectItem key={meter.id} value={meter.id.toString()}>
+                        {meter.brand} - {meter.model}
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectContent>
               </Select>
               <FormMessage />
