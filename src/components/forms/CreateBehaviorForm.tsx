@@ -160,7 +160,9 @@ console.log(data.meterId)
           description: "Meter behavior reported successfully",
         });
 
-        navigate(`/behaviors`);//navigate(`/behaviors/${newBehavior.id}`);
+        // Navigate back to behaviors page with refresh flag to trigger refetch
+        navigate(`/behaviors`, { state: { refreshBehaviors: Date.now() } });
+        // Or navigate to detail page: navigate(`/behaviors/${newBehavior.id}`);
       } catch (error) {
         console.error('Error submitting behavior:', error);
         toast({

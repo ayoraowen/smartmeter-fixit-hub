@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,13 +7,70 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getAllBehaviors } from "@/data/behaviorData";
-import { Search, Plus, AlertTriangle } from "lucide-react";
+import { Search, Plus, AlertTriangle, Loader2 } from "lucide-react";
+
+// Uncomment for API integration
+// interface ApiBehavior {
+//   id: number;
+//   meter_id: number;
+//   title: string;
+//   description: string;
+//   symptoms: string[];
+//   solutions: string[];
+//   reported_by?: string;
+//   created_at: string;
+//   updated_at: string;
+//   meter?: {
+//     brand: string;
+//     model: string;
+//   };
+// }
 
 export default function MeterBehaviors() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSeverity, setSelectedSeverity] = useState<string>("all");
+  
+  // Current local storage implementation
   const behaviors = getAllBehaviors();
+  
+  // Uncomment for API integration
+  // const [behaviors, setBehaviors] = useState<ApiBehavior[]>([]);
+  // const [isLoading, setIsLoading] = useState(true);
+  
+  // useEffect(() => {
+  //   const fetchBehaviors = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const response = await fetch('https://localhost:3000/behaviors', {
+  //         credentials: "include",
+  //       });
+  //       
+  //       if (!response.ok) {
+  //         throw new Error('Failed to fetch behaviors');
+  //       }
+  //       
+  //       const data: ApiBehavior[] = await response.json();
+  //       setBehaviors(data);
+  //     } catch (error) {
+  //       console.error('Error fetching behaviors:', error);
+  //       toast({
+  //         title: "Error",
+  //         description: "Failed to load behaviors. Please try again later.",
+  //         variant: "destructive",
+  //       });
+  //       setBehaviors([]);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //
+  //   fetchBehaviors();
+  //   
+  //   // Refetch when returning from create page
+  //   // The location.state?.refreshBehaviors flag is set in CreateBehaviorForm
+  // }, [location.state?.refreshBehaviors]);
 
   const filteredBehaviors = behaviors.filter(behavior => {
     const matchesSearch = 
@@ -26,6 +83,21 @@ export default function MeterBehaviors() {
     
     return matchesSearch && matchesSeverity;
   });
+  
+  // Uncomment for API integration - adjust filter logic for API data structure
+  // const filteredBehaviors = behaviors.filter(behavior => {
+  //   const matchesSearch = 
+  //     behavior.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     (behavior.meter?.brand || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     (behavior.meter?.model || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     behavior.description.toLowerCase().includes(searchTerm.toLowerCase());
+  //   
+  //   // Note: API might need severity field added to match this filtering
+  //   // const matchesSeverity = selectedSeverity === "all" || behavior.severity === selectedSeverity;
+  //   const matchesSeverity = true; // Remove if API has severity field
+  //   
+  //   return matchesSearch && matchesSeverity;
+  // });
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -79,6 +151,13 @@ export default function MeterBehaviors() {
           </div>
         </div>
 
+        {/* Uncomment for API integration loading state */}
+        {/* {isLoading ? (
+          <Card className="p-8 text-center">
+            <Loader2 className="h-12 w-12 mx-auto mb-4 animate-spin text-muted-foreground" />
+            <h3 className="text-lg font-semibold mb-2">Loading behaviors...</h3>
+          </Card>
+        ) : */}
         {filteredBehaviors.length === 0 ? (
           <Card className="p-8 text-center">
             <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
@@ -101,6 +180,7 @@ export default function MeterBehaviors() {
                     </div>
                     <p className="text-sm text-muted-foreground mb-2">
                       {behavior.meterBrand} - {behavior.meterModel}
+                      {/* For API: {behavior.meter?.brand} - {behavior.meter?.model} */}
                     </p>
                     <p className="text-muted-foreground">{behavior.description}</p>
                   </div>
@@ -111,6 +191,7 @@ export default function MeterBehaviors() {
                     <span>{behavior.symptoms.length} symptoms</span>
                     <span>{behavior.solutions.length} solutions</span>
                     <span>Reported: {behavior.dateReported}</span>
+                    {/* For API: <span>Reported: {new Date(behavior.created_at).toLocaleDateString()}</span> */}
                   </div>
                   <Button
                     variant="outline"
