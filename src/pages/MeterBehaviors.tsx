@@ -16,8 +16,8 @@ interface ApiBehavior {
   meter_id: number;
   title: string;
   description: string;
-  symptoms: string[];
-  solutions: string[];
+  symptoms: string;
+  solutions: string;
   reported_by?: string;
   created_at: string;
   updated_at: string;
@@ -45,7 +45,12 @@ export default function MeterBehaviors() {
       try {
         setIsLoading(true);
         const response = await fetch('https://localhost:3000/behaviors', {
+          // method: 'GET',//without method what happens?
           credentials: "include",
+          // headers: {
+          //   'Content-Type': 'application/json',
+          //   // 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          // },
         });
         
         if (!response.ok) {
@@ -100,6 +105,7 @@ export default function MeterBehaviors() {
     
     return matchesSearch //&& matchesSeverity;
   });
+console.log(filteredBehaviors.map(b => b.symptoms.length))
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -190,8 +196,8 @@ export default function MeterBehaviors() {
 
                 <div className="flex items-center justify-between mt-4 pt-4 border-t">
                   <div className="flex gap-4 text-sm text-muted-foreground">
-                    <span>{behavior.symptoms.length} symptoms</span>
-                    <span>{behavior.solutions.length} solutions</span>
+                    <span>{behavior.symptoms.length} symptoms</span>{/*Bug in calculating length, right now being calculated as a string instead of as an array - to use example in Directory ie. const featuresDbColStringToArray = Array.isArray(meter.features) ? meter.features : JSON.parse(meter.features || "[]"); */}
+                    <span>{behavior.solutions.length} solutions</span>{/*Bug in calculating length, right now being calculated as a string instead of as an array - to use example in Directory ie. const featuresDbColStringToArray = Array.isArray(meter.features) ? meter.features : JSON.parse(meter.features || "[]"); */}
                     {/* <span>Reported: {behavior.dateReported}</span> */}
                     <span>Reported: {new Date(behavior.created_at).toLocaleDateString()}</span>{/*For API:*/}
                     <span>By: {behavior.reported_by || "Anonymous"}</span>{/*To revisit once final decision between reported_by and user_id is made*/}
