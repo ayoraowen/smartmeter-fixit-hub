@@ -49,7 +49,7 @@ export default function Directory() {
         setMeters(data);
       } catch (error) {
         console.error('Error fetching meters:', error);
-        // Optionally show toast notification
+        // Optionally show toast notification - To revisit, need to import toast here
       } finally {
         setIsLoading(false);
       }
