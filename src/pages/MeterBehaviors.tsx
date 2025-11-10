@@ -206,12 +206,21 @@ console.log(filteredBehaviors.map(b => b.symptoms.length))
                     <span>Reported: {new Date(behavior.created_at).toLocaleDateString()}</span>{/*For API:*/}
                     <span>By: {behavior.reported_by || "Anonymous"}</span>{/*To revisit once final decision between reported_by and user_id is made*/}
                   </div>
-                  <Button
-                    variant="outline"
-                    onClick={() => navigate(`/behaviors/${behavior.id}`)}
-                  >
-                    View Details
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => navigate(`/behaviors/${behavior.id}`)}
+                    >
+                      View Details
+                    </Button>
+                    {/* Uncomment when guide association is implemented */}
+                    {/* <Button
+                      variant="ghost"
+                      onClick={() => navigate(`/guides/${behavior.guide_id}`)}
+                    >
+                      View Related Guide
+                    </Button> */}
+                  </div>
                 </div>
               </Card>
             ))}
