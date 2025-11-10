@@ -9,6 +9,30 @@ import { ArrowLeft, AlertTriangle, CheckCircle, Calendar, User } from "lucide-re
 export default function BehaviorDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  
+  // For API implementation:
+  // const [behavior, setBehavior] = useState<any>(null);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
+  
+  // useEffect(() => {
+  //   const fetchBehavior = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const response = await fetch(`https://localhost:3000/behaviors/${id}`);
+  //       if (!response.ok) throw new Error('Failed to fetch behavior');
+  //       const data = await response.json();
+  //       setBehavior(data);
+  //     } catch (err) {
+  //       setError(err instanceof Error ? err.message : 'An error occurred');
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchBehavior();
+  // }, [id]);
+  
+  // For now, using local data:
   const behavior = getBehaviorById(id || "");
 
   if (!behavior) {
