@@ -136,7 +136,12 @@ export default function BehaviorDetail() {
               <h2 className="text-xl font-semibold">Solutions</h2>
             </div>
             <ol className="space-y-3">
-              {behavior.solutions.map((solution, index) => (
+              {Array.isArray(behavior.solutions) ? behavior.solutions.map((solution, index) => (
+                <li key={index} className="flex gap-3">
+                  <span className="font-semibold text-primary">{index + 1}.</span>
+                  <span>{solution}</span>
+                </li>
+              )) : JSON.parse(behavior.solutions || "[]").map((solution: string, index: number) => (
                 <li key={index} className="flex gap-3">
                   <span className="font-semibold text-primary">{index + 1}.</span>
                   <span>{solution}</span>
