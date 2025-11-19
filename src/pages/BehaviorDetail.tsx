@@ -138,12 +138,12 @@ export default function BehaviorDetail() {
             <ol className="space-y-3">
               {Array.isArray(behavior.solutions) ? behavior.solutions.map((solution, index) => (
                 <li key={index} className="flex gap-3">
-                  <span className="font-semibold text-primary">{index + 1}.</span>
+                  <span className="font-semibold text-primary">{index + 1}•</span>
                   <span>{solution}</span>
                 </li>
               )) : JSON.parse(behavior.solutions || "[]").map((solution: string, index: number) => (
                 <li key={index} className="flex gap-3">
-                  <span className="font-semibold text-primary">{index + 1}.</span>
+                  <span className="font-semibold text-primary">{index + 1}•</span>
                   <span>{solution}</span>
                 </li>
               ))}
