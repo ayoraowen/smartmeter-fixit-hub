@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getBehaviorById } from "@/data/behaviorData";
-import { ArrowLeft, AlertTriangle, CheckCircle, Calendar, User } from "lucide-react";
+import { ArrowLeft, AlertTriangle, CheckCircle, Calendar, User, Beaker } from "lucide-react";
 
 export default function BehaviorDetail() {
   const { id } = useParams();
@@ -115,12 +115,18 @@ export default function BehaviorDetail() {
               <h2 className="text-xl font-semibold">Symptoms</h2>
             </div>
             <ul className="space-y-2">
-              {behavior.symptoms.map((symptom, index) => (
+              {Array.isArray(behavior.symptoms) ? behavior.symptoms.map((symptom, index) => (
                 <li key={index} className="flex items-start gap-2">
                   <span className="text-destructive mt-1">•</span>
                   <span>{symptom}</span>
                 </li>
-              ))}
+              )) : JSON.parse(behavior.symptoms || "[]").map((symptom: string, index: number) => (
+                <li key={index} className="flex items-start gap-2">
+                  <span className="text-destructive mt-1">•</span>
+                  <span>{symptom}</span>
+                </li>
+              )) 
+                }
             </ul>
           </Card>
 
