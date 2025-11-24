@@ -142,7 +142,7 @@ export default function MeterDetail() {
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  {/* {isEditMode ? (
+                  {isEditMode ? (
                     <div className="space-y-3">
                       <Input
                         value={editedMeter.model}
@@ -162,7 +162,7 @@ export default function MeterDetail() {
                         type="number"
                       />
                     </div>
-                  ) : ( */}
+                  ) : (
                     <div>
                       <CardTitle className="text-3xl mb-2">
                         {meter.model}
@@ -176,7 +176,7 @@ export default function MeterDetail() {
                   {/* )} */}
                 </div>
                 <div className="flex items-center gap-2">
-                  {/* {isEditMode ? (
+                  {isEditMode ? (
                     <>
                       <Button size="sm" onClick={handleSave}>
                         <Save className="h-4 w-4 mr-1" />
@@ -192,7 +192,7 @@ export default function MeterDetail() {
                       <Edit className="h-4 w-4 mr-1" />
                       Edit
                     </Button>
-                  )} */}
+                  )}
                   <Badge variant="secondary" className="text-sm">
                     {meter.connection_type}
                   </Badge>
