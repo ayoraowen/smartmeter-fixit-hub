@@ -173,7 +173,7 @@ export default function MeterDetail() {
                       <p className="text-lg text-primary font-medium">{meter.brand}</p>
                       <p className="text-sm text-muted-foreground mt-1">Year: {meter.year_of_manufacture}</p>
                     </div>
-                  {/* )} */}
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   {isEditMode ? (
