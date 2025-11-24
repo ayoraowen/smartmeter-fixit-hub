@@ -74,7 +74,7 @@ export default function MeterDetail() {
           model: editedMeter.model,
           connection_type: editedMeter.connection_type,
           year_of_manufacture: parseInt(editedMeter.year_of_manufacture),
-          features: JSON.stringify(editedMeter.features),
+          features: editedMeter.features
         }),
       });
   
@@ -174,7 +174,7 @@ export default function MeterDetail() {
                           type="number"
                         />
                       </div>
-                      {/* <div className="space-y-2">
+                      <div className="space-y-2">
                         <Label htmlFor="connection_type">Connection Type</Label>
                         <Input
                           id="connection_type"
@@ -182,21 +182,21 @@ export default function MeterDetail() {
                           onChange={(e) => handleInputChange('connection_type', e.target.value)}
                           placeholder="Connection Type"
                         />
-                      </div> */}
-                      {/* <div className="space-y-2">
+                      </div>
+                      <div className="space-y-2">
                         <Label htmlFor="features">Features (comma-separated)</Label>
                         <Input
                           id="features"
-                          value={Array.isArray(editedMeter.features) 
-                            ? editedMeter.features.join(', ') 
-                            : editedMeter.features}
+                          value={(Array.isArray(editedMeter.features) 
+                            ? editedMeter.features
+                            : JSON.parse(editedMeter.features || "[]")).map((feature, index) => (`${feature}`)).join(', ')}
                           onChange={(e) => {
                             const featuresArray = e.target.value.split(',').map(f => f.trim());
                             handleInputChange('features', featuresArray);
                           }}
                           placeholder="Feature 1, Feature 2, Feature 3"
                         />
-                      </div> */}
+                      </div>
                     </div>
                   ) : (
                     <div>
