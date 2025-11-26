@@ -7,8 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Layout } from "@/components/layout/Layout";
 import { meterData } from "@/data/meterData";
 import { useNavigate } from "react-router-dom";
-// import { Progress } from "@/components/ui/progress";
-// import { Skeleton } from "@/components/ui/skeleton";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Directory() {
   const navigate = useNavigate();
@@ -127,7 +127,7 @@ export default function Directory() {
         </div>
 
         {/* Loading State with Progress Indicator */}
-        {/* {isLoading && (
+        {isLoading && (
           <div className="space-y-8">
             <div className="max-w-md mx-auto space-y-4">
               <div className="text-center">
@@ -171,10 +171,10 @@ export default function Directory() {
               ))}
             </div>
           </div>
-        )} */}
+        )}
 
         {/* Meter Grid */}
-        {/* {!isLoading && ( */}
+        {!isLoading && (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredMeters.map((meter) => (
             <Card
@@ -235,10 +235,10 @@ export default function Directory() {
             </Card>
           ))}
         </div>
-        {/* )} */}
+        )} 
 
-        {/* {!isLoading && filteredMeters.length === 0 && ( */}
-        {filteredMeters.length === 0 && (
+        {!isLoading && filteredMeters.length === 0 && (
+        
           <div className="text-center py-12">
             <Grid3X3 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-lg font-medium text-foreground mb-2">
@@ -249,7 +249,7 @@ export default function Directory() {
             </p>
           </div>
         )}
-        {/* )} */}
+        
       </div>
     </Layout>
   );
