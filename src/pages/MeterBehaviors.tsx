@@ -9,6 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { getAllBehaviors } from "@/data/behaviorData";
 import { Search, Plus, AlertTriangle, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast"; //in CreateMeterForm we used useToast hook, what is the difference?
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+
 
 // Uncomment for API integration
 interface ApiBehavior {
@@ -116,6 +119,47 @@ console.log(filteredBehaviors.map(b => b.symptoms.length))
       default: return "default";
     }
   };
+
+  if (isLoading) {
+  return (
+    <Layout>
+      <div className="container mx-auto px-4 py-8">
+
+        <div className="max-w-md mx-auto space-y-4 mb-10 mt-4">
+          <div className="text-center">
+            <h3 className="text-lg font-medium text-foreground mb-2">
+              Loading behaviour guides...
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Fetching meter behaviour reports
+            </p>
+          </div>
+
+          <Progress value={66} className="h-2" />
+        </div>
+
+        {/* Skeleton list for behaviors */}
+        <div className="grid gap-6">
+          {[1, 2, 3].map((i) => (
+            <Card key={i} className="p-6 space-y-4">
+              <Skeleton className="h-6 w-1/2" />
+              <Skeleton className="h-4 w-1/4" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-2/3" />
+
+              <div className="flex justify-between pt-4 border-t">
+                <Skeleton className="h-4 w-1/3" />
+                <Skeleton className="h-8 w-24" />
+              </div>
+            </Card>
+          ))}
+        </div>
+
+      </div>
+    </Layout>
+  );
+}
+
 
   return (
     <Layout>

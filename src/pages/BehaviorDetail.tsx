@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getBehaviorById } from "@/data/behaviorData";
 import { ArrowLeft, AlertTriangle, CheckCircle, Calendar, User, Beaker } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+
 
 export default function BehaviorDetail() {
   const { id } = useParams();
@@ -35,6 +38,70 @@ export default function BehaviorDetail() {
   
   // For now, using local data:
   // const behavior = getBehaviorById(id || "");
+
+if (isLoading) {
+  return (
+    <Layout>
+      <div className="container mx-auto px-4 py-8">
+        
+        <Button
+          variant="ghost"
+          onClick={() => navigate(-1)}
+          className="mb-6"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
+
+        {/* Header + progress bar */}
+        <div className="max-w-md mx-auto space-y-4 mb-10 mt-4">
+          <div className="text-center">
+            <h3 className="text-lg font-medium text-foreground mb-2">
+              Loading behaviour guide…
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Fetching detailed steps and meter info
+            </p>
+          </div>
+
+          <Progress value={70} className="h-2" />
+        </div>
+
+        {/* Skeleton detail cards */}
+        <div className="space-y-6">
+
+          <Card className="p-6 space-y-4">
+            <Skeleton className="h-8 w-2/3" />
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-4 w-1/4" />
+
+            <div className="pt-4 space-y-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-5/6" />
+              <Skeleton className="h-4 w-4/6" />
+            </div>
+          </Card>
+
+          <Card className="p-6 space-y-4">
+            <Skeleton className="h-5 w-1/4" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+            <Skeleton className="h-4 w-4/6" />
+          </Card>
+
+          <Card className="p-6 space-y-4">
+            <Skeleton className="h-5 w-1/4" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+            <Skeleton className="h-4 w-4/6" />
+          </Card>
+
+        </div>
+      </div>
+    </Layout>
+  );
+}
+
 
   if (!behavior) {
     return (

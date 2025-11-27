@@ -10,6 +10,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useCommaSeparatedInput } from "@/hooks/use-comma-separated-input";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+
 
 export default function MeterDetail() {
   const { id } = useParams<{ id: string }>();
@@ -122,6 +125,46 @@ export default function MeterDetail() {
     setEditedMeter(null);
     setIsEditMode(false);
   };
+
+  if (isLoading) {
+  return (
+    <Layout>
+      <div className="container mx-auto px-4 py-8">
+
+        <Button
+          variant="ghost"
+          onClick={() => navigate("/directory")}
+          className="mb-6"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Directory
+        </Button>
+
+        <div className="max-w-md mx-auto space-y-4 mb-8">
+          <div className="text-center">
+            <h3 className="text-lg font-medium text-foreground mb-2">
+              Loading meter details...
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Fetching meter information
+            </p>
+          </div>
+          <Progress value={66} className="h-2" />
+        </div>
+
+        {/* Simple skeleton for details area */}
+        <Card className="p-6 space-y-4">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-10 w-full mt-6" />
+        </Card>
+
+      </div>
+    </Layout>
+  );
+}
+
 
   if (!meter) {
     return (
