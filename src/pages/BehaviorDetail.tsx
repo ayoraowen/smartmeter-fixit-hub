@@ -100,7 +100,7 @@ const handleSave = async () => {
         symptoms: editData.symptoms,
         solutions: editData.solutions,
         reported_by: behavior.reported_by,
-        created_at: behavior.created_at,
+        // created_at: behavior.created_at,//not permitted to change in backend permitted params
       }
         
         ),
