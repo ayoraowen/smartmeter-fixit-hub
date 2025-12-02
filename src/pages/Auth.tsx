@@ -105,7 +105,7 @@ const Auth = () => {
       
       // Store the auth token
       //localStorage.setItem('authToken', token);
-      
+      localStorage.setItem('authToken', authData.token);
       // Update auth context with user data including first name
       await login(userData.email, userData.first_name, userData.last_name);
       
@@ -129,7 +129,8 @@ const Auth = () => {
       // Example implementation:
       const response = await fetch('https://localhost:3000/users', {
         method: 'POST',
-        credentials: "include", // <---- VERY IMPORTANT
+        // credentials: "include", // <---- VERY IMPORTANT
+
         headers: {
           'Content-Type': 'application/json',
         },
@@ -153,6 +154,7 @@ const Auth = () => {
       
       const userData = await response.json();
       // Store token or session data as needed
+      localStorage.setItem('authToken', userData.token);
       
       await signup(data.email, data.password, data.firstName, data.lastName);
       setSuccess("Account created successfully! Redirecting...");
