@@ -36,7 +36,14 @@ const [editData, setEditData] = useState<any>(null);
     const fetchBehavior = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`https://localhost:3000/behaviors/${id}`);
+        const response = await fetch(`https://localhost:3000/behaviors/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem('authToken')}`,
+              }
+          }
+        );
         if (!response.ok) throw new Error('Failed to fetch behavior');
         const data = await response.json();
         setBehavior(data);

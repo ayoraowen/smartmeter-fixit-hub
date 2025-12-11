@@ -49,11 +49,16 @@ export default function MeterBehaviors() {
         setIsLoading(true);
         const response = await fetch('https://localhost:3000/behaviors', {
           // method: 'GET',//without method what happens?
-          credentials: "include",
+          // credentials: "include",
           // headers: {
           //   'Content-Type': 'application/json',
           //   // 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           // },
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          }
+
         });
         
         if (!response.ok) {
