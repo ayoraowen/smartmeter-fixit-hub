@@ -99,6 +99,7 @@ const handleSave = async () => {
       method: "PUT",//or PUT based on your API
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
       },
       body: JSON.stringify({
         title: behavior.title,
@@ -119,6 +120,7 @@ const handleSave = async () => {
 
     setBehavior(updated);
     setIsEditing(false);
+    console.log("Changes saved", updated);
   } catch (error) {
     console.error(error);
     alert("Could not save changes");
