@@ -139,9 +139,10 @@ export function CreateBehaviorForm() {
       try {
         const response = await fetch('https://localhost:3000/behaviors', {
           method: 'POST',
-          credentials: "include", // 👈 sends the session cookie
+          // credentials: "include", // 👈 sends the session cookie
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           },
           body: JSON.stringify({
             meter_id: parseInt(data.meterId),
