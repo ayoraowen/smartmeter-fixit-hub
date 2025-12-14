@@ -249,7 +249,7 @@ export function CreateMeterForm() {
           name="type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Type</FormLabel>
+              <FormLabel>Connection Type</FormLabel>
               <FormControl>
                 <Input placeholder="e.g., Smart Grid Meter" {...field} />
               </FormControl>
