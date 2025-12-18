@@ -186,7 +186,9 @@ export default function Directory() {
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-lg">{meter.model}</CardTitle>
+                    {/* {value !== null ? <p>{value}</p> : null} */}
+                    {meter.meter_type_code !== null ? <CardTitle className="text-lg">{meter.model} - {meter.meter_type_code}</CardTitle> : <CardTitle className="text-lg">{meter.model}</CardTitle>}
+                    {/* <CardTitle className="text-lg">{meter.model}</CardTitle> */}
                     <p className="text-sm text-primary font-medium">
                       {meter.brand}
                     </p>
