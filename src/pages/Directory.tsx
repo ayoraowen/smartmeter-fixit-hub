@@ -187,7 +187,8 @@ export default function Directory() {
                 <div className="flex justify-between items-start">
                   <div>
                     {/* {value !== null ? <p>{value}</p> : null} */}
-                    {meter.meter_type_code !== null ? <CardTitle className="text-lg">{meter.model} - {meter.meter_type_code}</CardTitle> : <CardTitle className="text-lg">{meter.model}</CardTitle>}
+                    {/* {meter.meter_type_code !== null ? <CardTitle className="text-lg">{meter.model} - {meter.meter_type_code}</CardTitle> : <CardTitle className="text-lg">{meter.model}</CardTitle>} */}
+                    {meter.meter_type_code?.trim() ? <CardTitle className="text-lg"> {meter.model} - {meter.meter_type_code} </CardTitle> : <CardTitle className="text-lg"> {meter.model} </CardTitle>}
                     {/* <CardTitle className="text-lg">{meter.model}</CardTitle> */}
                     <p className="text-sm text-primary font-medium">
                       {meter.brand}
