@@ -101,7 +101,8 @@ export default function MeterDetail() {
           model: editedMeter.model,
           connection_type: editedMeter.connection_type,
           year_of_manufacture: parseInt(editedMeter.year_of_manufacture),
-          features: featuresArray//editedMeter.features
+          features: featuresArray,//editedMeter.features
+          meter_type_code: editedMeter.meter_type_code || null, // Handle empty string or null
         }),
       });
   
@@ -285,9 +286,19 @@ export default function MeterDetail() {
                     </div>
                   ) : (
                     <div>
-                      <CardTitle className="text-3xl mb-2">
+                      {meter.meter_type_code?.trim() ? (
+                        <CardTitle className="text-3xl mb-2">
+                          {meter.model} - {meter.meter_type_code}
+                        </CardTitle>
+                      ) : (
+                        <CardTitle className="text-3xl mb-2">
+                          {meter.model}
+                        </CardTitle>
+                      )}
+
+                      {/* <CardTitle className="text-3xl mb-2">
                         {meter.model}
-                      </CardTitle>
+                      </CardTitle> */}
                       {/* <CardDescription className="text-lg">
                         {meter.connection_type}
                       </CardDescription> */}
