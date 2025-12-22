@@ -26,6 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useCommaSeparatedInput } from "@/hooks/use-comma-separated-input";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 
 export default function MeterDetail() {
@@ -548,16 +549,18 @@ export default function MeterDetail() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap gap-2">
-                {(Array.isArray(meter.features)
-                  ? meter.features
-                  : JSON.parse(meter.features || "[]")
-                ).map((feature: string, index: number) => (
-                  <Badge key={index} variant="outline" className="text-sm">
-                    {feature}
-                  </Badge>
-                ))}
-              </div>
+              <ScrollArea className="max-h-40">
+                <div className="flex flex-wrap gap-2 pr-3">
+                  {(Array.isArray(meter.features)
+                    ? meter.features
+                    : JSON.parse(meter.features || "[]")
+                  ).map((feature: string, index: number) => (
+                    <Badge key={index} variant="outline" className="text-sm">
+                      {feature}
+                    </Badge>
+                  ))}
+                </div>
+              </ScrollArea>
             </CardContent>
           </Card>
 
