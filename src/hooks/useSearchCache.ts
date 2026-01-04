@@ -3,6 +3,7 @@ import { getAllMeters } from "@/data/meterData";
 import { getAllBehaviors } from "@/data/behaviorData";
 import { getAllGuides } from "@/data/guideData";
 import { useAuth } from "@/contexts/AuthContext";
+import API_BASE_URL from "@/config/api";
 
 function safeParseStringArray(value: unknown): string[] {
   if (Array.isArray(value)) {
@@ -84,9 +85,9 @@ export function useSearchCache() {
     try {
       // Try to fetch from API first
       const [metersRes, behaviorsRes, guidesRes] = await Promise.all([
-        fetch("https://localhost:3000/meters", { headers }).catch(() => null),
-        fetch("https://localhost:3000/behaviors", { headers }).catch(() => null),
-        fetch("https://localhost:3000/guides", { headers }).catch(() => null),
+        fetch(`${API_BASE_URL}/meters`, { headers }).catch(() => null),
+        fetch(`${API_BASE_URL}/behaviors`, { headers }).catch(() => null),
+        fetch(`${API_BASE_URL}/guides`, { headers }).catch(() => null),
       ]);
 
       // Check if any API call succeeded

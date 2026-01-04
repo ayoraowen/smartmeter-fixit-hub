@@ -27,6 +27,7 @@ import { useCommaSeparatedInput } from "@/hooks/use-comma-separated-input";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import API_BASE_URL from "@/config/api";
 
 
 export default function MeterDetail() {
@@ -51,7 +52,7 @@ export default function MeterDetail() {
     const fetchMeter = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`https://localhost:3000/meters/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/meters/${id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
           }
@@ -105,7 +106,7 @@ export default function MeterDetail() {
   const handleSave = async () => {
     try {
       const featuresArray = featuresInput.toArray();
-      const response = await fetch(`https://localhost:3000/meters/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/meters/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

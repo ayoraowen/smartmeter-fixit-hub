@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { X, Loader2 } from "lucide-react";
+import API_BASE_URL from "@/config/api";
 
 //interface needed for fetched meters so that we can populate the meter dropdown and have proper typing
 interface ApiFetchedMeter {
@@ -49,7 +50,7 @@ export function CreateBehaviorForm() {
     const fetchMeters = async () => {
       try {
         setIsLoadingMeters(true);
-        const response = await fetch('https://localhost:3000/meters', {
+        const response = await fetch(`${API_BASE_URL}/meters`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -138,7 +139,7 @@ export function CreateBehaviorForm() {
       // Uncomment below to POST to API endpoint instead of local storage
       
       try {
-        const response = await fetch('https://localhost:3000/behaviors', {
+        const response = await fetch(`${API_BASE_URL}/behaviors`, {
           method: 'POST',
           // credentials: "include", // 👈 sends the session cookie
           headers: {

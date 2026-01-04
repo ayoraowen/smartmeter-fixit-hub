@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import API_BASE_URL from "@/config/api";
 
 const createMeterSchema = z.object({
   brand: z.string().min(1, "Brand is required").max(100),
@@ -139,7 +140,7 @@ export function CreateMeterForm() {
     // }
     
     try {
-      const response = await fetch('https://localhost:3000/meters', {
+      const response = await fetch(`${API_BASE_URL}/meters`, {
         method: 'POST',
         // credentials: "include", // 👈 sends the session cookie
         headers: {

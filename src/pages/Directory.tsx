@@ -9,6 +9,7 @@ import { meterData } from "@/data/meterData";
 import { useNavigate } from "react-router-dom";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
+import API_BASE_URL from "@/config/api";
 
 export default function Directory() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function Directory() {
     const fetchMeters = async () => {
       try {
         const token = localStorage.getItem('authToken')
-        const response = await fetch('https://localhost:3000/meters', {
+        const response = await fetch(`${API_BASE_URL}/meters`, {
           method: 'GET',
           // credentials: "include", // 👈 sends the session cookie
           headers: {

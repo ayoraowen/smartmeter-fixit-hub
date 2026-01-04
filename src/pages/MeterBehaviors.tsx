@@ -12,6 +12,7 @@ import { toast } from "@/hooks/use-toast"; //in CreateMeterForm we used useToast
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Activity } from "lucide-react";
+import API_BASE_URL from "@/config/api";
 
 
 // Uncomment for API integration
@@ -51,7 +52,7 @@ export default function MeterBehaviors() {
     const fetchBehaviors = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('https://localhost:3000/behaviors', {
+        const response = await fetch(`${API_BASE_URL}/behaviors`, {
           // method: 'GET',//without method what happens?
           // credentials: "include",
           // headers: {

@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Edit, Save, X, Plus, Minus } from "lucide-react";
+import API_BASE_URL from "@/config/api";
 
 
 
@@ -36,7 +37,7 @@ const [editData, setEditData] = useState<any>(null);
     const fetchBehavior = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`https://localhost:3000/behaviors/${id}`,
+        const response = await fetch(`${API_BASE_URL}/behaviors/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -95,7 +96,7 @@ const removeListItem = (field: "symptoms" | "solutions", index: number) => {
 
 const handleSave = async () => {
   try {
-    const response = await fetch(`https://localhost:3000/behaviors/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/behaviors/${id}`, {
       method: "PUT",//or PUT based on your API
       headers: {
         "Content-Type": "application/json",
