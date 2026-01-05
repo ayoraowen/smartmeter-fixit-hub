@@ -11,6 +11,7 @@ import { Eye, EyeOff, Mail, Lock, User, ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import API_BASE_URL from "@/config/api";
 
 // Validation schemas
 const loginSchema = z.object({
@@ -74,7 +75,7 @@ const Auth = () => {
     try {
       // TODO: Replace with actual REST API call
       // Example implementation:
-      const response = await fetch('https://localhost:3000/login', {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         // credentials: "include", // <---- VERY IMPORTANT 
         headers: {
@@ -127,7 +128,7 @@ const Auth = () => {
     try {
       // TODO: Replace with actual REST API call
       // Example implementation:
-      const response = await fetch('https://localhost:3000/users', {
+      const response = await fetch(`${API_BASE_URL}/users`, {
         method: 'POST',
         // credentials: "include", // <---- VERY IMPORTANT
 
