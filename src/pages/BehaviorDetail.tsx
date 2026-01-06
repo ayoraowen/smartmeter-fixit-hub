@@ -17,6 +17,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 // Validation schema for behavior edit form
 const behaviorEditSchema = z.object({
@@ -37,6 +47,7 @@ export default function BehaviorDetail() {
   const [error, setError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [showDiscardDialog, setShowDiscardDialog] = useState(false);
 
   const form = useForm<BehaviorEditFormData>({
     resolver: zodResolver(behaviorEditSchema),
@@ -91,7 +102,15 @@ export default function BehaviorDetail() {
     setIsEditing(true);
   };
 
-  const handleCancelEdit = () => {
+  const handleCancelClick = () => {
+    if (form.formState.isDirty) {
+      setShowDiscardDialog(true);
+    } else {
+      confirmCancelEdit();
+    }
+  };
+
+  const confirmCancelEdit = () => {
     // Reset form to original behavior data
     const symptoms = Array.isArray(behavior.symptoms)
       ? behavior.symptoms
@@ -106,6 +125,7 @@ export default function BehaviorDetail() {
       solutions: solutions,
     });
     setIsEditing(false);
+    setShowDiscardDialog(false);
   };
 
   const addListItem = (field: "symptoms" | "solutions") => {
@@ -371,9 +391,24 @@ if (isLoading) {
             <Button onClick={form.handleSubmit(handleSave)} disabled={isSaving}>
               <Save className="mr-2 h-4 w-4" /> {isSaving ? "Saving..." : "Save"}
             </Button>
-            <Button variant="outline" onClick={handleCancelEdit}>
+            <Button variant="outline" onClick={handleCancelClick}>
               <X className="mr-2 h-4 w-4" /> Cancel
             </Button>
+            
+            <AlertDialog open={showDiscardDialog} onOpenChange={setShowDiscardDialog}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Discard unsaved changes?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    You have unsaved changes that will be lost if you cancel. Are you sure you want to discard them?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Keep Editing</AlertDialogCancel>
+                  <AlertDialogAction onClick={confirmCancelEdit}>Discard Changes</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         )}
       </div>
