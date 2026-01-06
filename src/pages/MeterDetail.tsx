@@ -32,6 +32,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 // Validation schema for meter edit form
 const meterEditSchema = z.object({
@@ -55,6 +65,7 @@ export default function MeterDetail() {
   const [error, setError] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [showDiscardDialog, setShowDiscardDialog] = useState(false);
 
   const form = useForm<MeterEditFormData>({
     resolver: zodResolver(meterEditSchema),
@@ -172,9 +183,30 @@ export default function MeterDetail() {
     }
   };
 
-  const handleCancel = () => {
-    form.reset();
+  const handleCancelClick = () => {
+    if (form.formState.isDirty) {
+      setShowDiscardDialog(true);
+    } else {
+      confirmCancel();
+    }
+  };
+
+  const confirmCancel = () => {
+    // Reset form to current meter values
+    const features = Array.isArray(meter?.features)
+      ? meter.features
+      : JSON.parse(meter?.features || "[]");
+      
+    form.reset({
+      model: meter?.model || "",
+      brand: meter?.brand || "",
+      meter_type_code: meter?.meter_type_code || "",
+      year_of_manufacture: meter?.year_of_manufacture || new Date().getFullYear(),
+      connection_type: meter?.connection_type || "",
+      features: features.join(", "),
+    });
     setIsEditMode(false);
+    setShowDiscardDialog(false);
   };
 
   if (isLoading) {
@@ -583,10 +615,25 @@ export default function MeterDetail() {
                       <Save className="h-4 w-4 mr-1" />
                       {isSaving ? "Saving..." : "Save Changes"}
                     </Button>
-                    <Button type="button" variant="outline" onClick={handleCancel}>
+                    <Button type="button" variant="outline" onClick={handleCancelClick}>
                       <X className="h-4 w-4 mr-1" />
                       Cancel
                     </Button>
+                    
+                    <AlertDialog open={showDiscardDialog} onOpenChange={setShowDiscardDialog}>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Discard unsaved changes?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            You have unsaved changes that will be lost if you cancel. Are you sure you want to discard them?
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Keep Editing</AlertDialogCancel>
+                          <AlertDialogAction onClick={confirmCancel}>Discard Changes</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </form>
               </Form>
