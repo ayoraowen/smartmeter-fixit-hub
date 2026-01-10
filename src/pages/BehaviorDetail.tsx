@@ -30,6 +30,7 @@ import {
 
 // Validation schema for behavior edit form
 const behaviorEditSchema = z.object({
+  title: z.string().trim().min(3, "Title must be at least 3 characters").max(200, "Title must be less than 200 characters"),
   description: z.string().trim().min(10, "Description must be at least 10 characters").max(1000, "Description must be less than 1000 characters"),
   symptoms: z.array(z.string().trim().min(1, "Symptom cannot be empty")).min(1, "At least one symptom is required"),
   solutions: z.array(z.string().trim().min(1, "Solution cannot be empty")).min(1, "At least one solution is required"),
@@ -52,6 +53,7 @@ export default function BehaviorDetail() {
   const form = useForm<BehaviorEditFormData>({
     resolver: zodResolver(behaviorEditSchema),
     defaultValues: {
+      title: "",
       description: "",
       symptoms: [],
       solutions: [],
@@ -85,6 +87,7 @@ export default function BehaviorDetail() {
           : JSON.parse(data.solutions || "[]");
           
         form.reset({
+          title: data.title || "",
           description: data.description || "",
           symptoms: symptoms,
           solutions: solutions,
@@ -120,6 +123,7 @@ export default function BehaviorDetail() {
       : JSON.parse(behavior.solutions || "[]");
       
     form.reset({
+      title: behavior.title || "",
       description: behavior.description || "",
       symptoms: symptoms,
       solutions: solutions,
@@ -149,7 +153,7 @@ export default function BehaviorDetail() {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         },
         body: JSON.stringify({
-          title: behavior.title,
+          title: data.title,
           meter_id: behavior.meter_id,
           description: data.description,
           symptoms: data.symptoms.filter(s => s.trim() !== ""),
@@ -417,7 +421,28 @@ if (isLoading) {
 
         {/* Header Card */}
         <Card className="p-6">
-          <h1 className="text-3xl font-bold mb-2">{behavior.title}</h1>
+          {!isEditing ? (
+            <h1 className="text-3xl font-bold mb-2">{behavior.title}</h1>
+          ) : (
+            <Form {...form}>
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem className="mb-2">
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="text-3xl font-bold h-auto py-1"
+                        placeholder="Enter behavior title..."
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </Form>
+          )}
           {behavior.meter?.meter_type_code?.trim() ? 
           <p className="text-sm text-muted-foreground mb-2"> {behavior.meter?.brand} | {behavior.meter?.model} | {behavior.meter?.meter_type_code} | {behavior.meter?.year_of_manufacture} </p> : 
           <p className="text-sm text-muted-foreground mb-2"> {behavior.meter?.brand} | {behavior.meter?.model} | {behavior.meter?.year_of_manufacture} </p>
