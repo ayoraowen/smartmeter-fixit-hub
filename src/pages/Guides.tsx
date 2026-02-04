@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
 import { getAllGuides } from "@/data/guideData";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Guides() {
+  const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const guides = getAllGuides();
 
@@ -40,12 +42,17 @@ export default function Guides() {
             <Book className="h-8 w-8 text-primary" />
             <h1 className="text-3xl font-bold text-foreground">Troubleshooting Guides</h1>
           </div>
-          <Link to="/guides/create">
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Create Guide
-            </Button>
-          </Link>
+          <Button
+            onClick={() => {
+              toast({
+                title: "Coming Soon",
+                description: "Create Guide feature is still under development.",
+              });
+            }}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Create Guide
+          </Button>
         </div>
         <p className="text-lg text-muted-foreground">Expert-verified step-by-step solutions</p>
       </div>
